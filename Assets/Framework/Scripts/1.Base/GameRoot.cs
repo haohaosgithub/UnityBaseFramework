@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class GameRoot : SingletonMono<GameRoot>
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void Awake()
     {
+        if(instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
         
+        
+        InitManagers();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void InitManagers()
     {
-        
+        ManagerBase[] managers = GetComponents<ManagerBase>();
+        foreach (ManagerBase manager in managers)
+        {
+            manager.Init();
+        }
     }
 }

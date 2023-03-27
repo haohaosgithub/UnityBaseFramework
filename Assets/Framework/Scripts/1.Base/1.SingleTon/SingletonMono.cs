@@ -2,34 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T>
+namespace Framework
 {
-    protected static T instance;
-    protected virtual void Awake()
+    public class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T>
     {
+        protected static T instance;
+        protected virtual void Awake()
+        {
 
-        //thisµÄÀàÐÍÊÇ»ùÀàSingletonMono<T>,¼´ÏòÏÂ×ªÐÍ »ùÀà×ª×ÓÀàSingletonMono<T> -> T
-        //ËùÒÔÐèÒªµ÷ÓÃÕß±£Ö¤×ªÐÍ·ûºÏÓïÒå£¬¶ø²»ÊÇ½öÂú×ãÓï·¨
-        //AÀàÈç¹ûÐèÒª×÷Îªµ¥ÀýÀà£¬ÔòÉùÃ÷Ê±ÕâÑùÉùÃ÷ class A : SingletonMono<A>
+            //thisçš„ç±»åž‹æ˜¯åŸºç±»SingletonMono<T>,å³å‘ä¸‹è½¬åž‹ åŸºç±»è½¬å­ç±»SingletonMono<T> -> T
+            //æ‰€ä»¥éœ€è¦è°ƒç”¨è€…ä¿è¯è½¬åž‹ç¬¦åˆè¯­ä¹‰ï¼Œè€Œä¸æ˜¯ä»…æ»¡è¶³è¯­æ³•
+            //Aç±»å¦‚æžœéœ€è¦ä½œä¸ºå•ä¾‹ç±»ï¼Œåˆ™å£°æ˜Žæ—¶è¿™æ ·å£°æ˜Ž class A : SingletonMono<A>
 
-        #region ½âÊÍ
-        //Êµ¼ÊÎÒÃÇµÄÄ¿µÄ¾ÍÊÇ Ä³¸öµ¥Àý×÷ÓÃµÄÀàAÒ»¶¨¼Ì³ÐÓÚ SingletonMono<¸Ãµ¥Àý×÷ÓÃÀàA>,
-        //µ«ÊÇÄ¿Ç°µÄÐ´·¨Êµ¼ÊÉÏÃ»ÓÐÔ¼ÊøÕâÒ»µã
-        //where Ô¼ÊøÊµ¼ÊÉÏÖ»Ô¼ÊøÁË SingletonMono<T>Õâ¸ö»ùÀàµÄT ±ØÐë¼Ì³ÐSingletonMono<T>£¬Ò²¾ÍÊÇ¶Ô»ùÀàµÄTµÄÔ¼Êø
-        //±ÈÈçÒÑ¾­´æÔÚµÄÀà string, GameObject»òÕßÈÎÒâÎÒÃÇÒÑ¶¨ÒåÎ´¼Ì³ÐSingleton<T>µÄÀà¶¼²»ÄÜ×÷Îª·ºÐÍT
-        //ÒòÎªÃ»ÓÐ´ÓÒÑ¾­´æÔÚµÄÀàµ½Õâ¸ö·ºÐÍÀàµÄ×ª»¯
+            #region è§£é‡Š
+            //å®žé™…æˆ‘ä»¬çš„ç›®çš„å°±æ˜¯ æŸä¸ªå•ä¾‹ä½œç”¨çš„ç±»Aä¸€å®šç»§æ‰¿äºŽ SingletonMono<è¯¥å•ä¾‹ä½œç”¨ç±»A>,
+            //ä½†æ˜¯ç›®å‰çš„å†™æ³•å®žé™…ä¸Šæ²¡æœ‰çº¦æŸè¿™ä¸€ç‚¹
+            //where çº¦æŸå®žé™…ä¸Šåªçº¦æŸäº† SingletonMono<T>è¿™ä¸ªåŸºç±»çš„T å¿…é¡»ç»§æ‰¿SingletonMono<T>ï¼Œä¹Ÿå°±æ˜¯å¯¹åŸºç±»çš„Tçš„çº¦æŸ
+            //æ¯”å¦‚å·²ç»å­˜åœ¨çš„ç±» string, GameObjectæˆ–è€…ä»»æ„æˆ‘ä»¬å·²å®šä¹‰æœªç»§æ‰¿Singleton<T>çš„ç±»éƒ½ä¸èƒ½ä½œä¸ºæ³›åž‹T
+            //å› ä¸ºæ²¡æœ‰ä»Žå·²ç»å­˜åœ¨çš„ç±»åˆ°è¿™ä¸ªæ³›åž‹ç±»çš„è½¬åŒ–
 
-        //ÈÎÒâÐÂµÄ×Ô¶¨ÒåµÄÀà¶¼¿ÉÒÔ×÷Îª·ºÐÍT
-        //ÓÐÁËÒ»¸öÅÉÉúÀàºó£¬ÈçÉÏÀýµÄA£¬´ËÊ±È·¶¨ÁËÒ»¸öÀà SingletonMono<A>
-        //ÔòÈÎÒâÐÂ×Ô¶¨ÒåµÄÀà¶¼¿ÉÒÔ¼Ì³ÐÕâ¸öSingletonMono<A>ÁË£¬
-        //±ÈÈçÓÐÁíÒ»¸öÀàB £¬ÔòËüÕâÑùÉùÃ÷ class B : SingletonMono<A>ÊÇ·ûºÏÓï·¨µÄ£¬
-        //ÒòÎªAÀàÊÇSingletonMono<A>µÄ×ÓÀà£¬¿ÉÒÔ×÷ÎªT
-        //µ«ÊÇÕâÑùÊ¹ÓÃºóBÀàÊµ¼ÊÓïÑÉ²»Ïê£¬ÊôÓÚµ÷ÓÃÕß´íÓÃ
+            //ä»»æ„æ–°çš„è‡ªå®šä¹‰çš„ç±»éƒ½å¯ä»¥ä½œä¸ºæ³›åž‹T
+            //æœ‰äº†ä¸€ä¸ªæ´¾ç”Ÿç±»åŽï¼Œå¦‚ä¸Šä¾‹çš„Aï¼Œæ­¤æ—¶ç¡®å®šäº†ä¸€ä¸ªç±» SingletonMono<A>
+            //åˆ™ä»»æ„æ–°è‡ªå®šä¹‰çš„ç±»éƒ½å¯ä»¥ç»§æ‰¿è¿™ä¸ªSingletonMono<A>äº†ï¼Œ
+            //æ¯”å¦‚æœ‰å¦ä¸€ä¸ªç±»B ï¼Œåˆ™å®ƒè¿™æ ·å£°æ˜Ž class B : SingletonMono<A>æ˜¯ç¬¦åˆè¯­æ³•çš„ï¼Œ
+            //å› ä¸ºAç±»æ˜¯SingletonMono<A>çš„å­ç±»ï¼Œå¯ä»¥ä½œä¸ºT
+            //ä½†æ˜¯è¿™æ ·ä½¿ç”¨åŽBç±»å®žé™…è¯­ç„‰ä¸è¯¦ï¼Œå±žäºŽè°ƒç”¨è€…é”™ç”¨
 
-        //×Ü½áÀ´Ëµ£¬Õâ¸öwhereÔ¼ÊøÖ»Ô¼ÊøÁË·ºÐÍ»ùÀà£¬µ±·ºÐÍÈ·¶¨ºó£¬Ö»ÒªºÏ·¨£¬ÈÎºÎÐÂÔö×ÓÀà¶¼¿ÉÒÔ¼Ì³ÐÕâ¸ö»ùÀà£¬
-        //ËùÒÔÐèÒªµ÷ÓÃÕß°´ÕÕ¹æ·¶È¥¼Ì³Ð¸ÃÀàÒÔÊµÏÖµ¥ÀýµÄ¹¦ÄÜ
-        #endregion
+            //æ€»ç»“æ¥è¯´ï¼Œè¿™ä¸ªwhereçº¦æŸåªçº¦æŸäº†æ³›åž‹åŸºç±»ï¼Œå½“æ³›åž‹ç¡®å®šåŽï¼Œåªè¦åˆæ³•ï¼Œä»»ä½•æ–°å¢žå­ç±»éƒ½å¯ä»¥ç»§æ‰¿è¿™ä¸ªåŸºç±»ï¼Œ
+            //æ‰€ä»¥éœ€è¦è°ƒç”¨è€…æŒ‰ç…§è§„èŒƒåŽ»ç»§æ‰¿è¯¥ç±»ä»¥å®žçŽ°å•ä¾‹çš„åŠŸèƒ½
+            #endregion
 
-        instance = this as T;
+            instance = this as T;
+        }
     }
 }
+

@@ -2,23 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ManagerBase : MonoBehaviour
+namespace Framework
 {
-    public virtual void Init()
+    public abstract class ManagerBase : MonoBehaviour
     {
+        public virtual void Init()
+        {
 
+        }
+    }
+
+
+    public class ManagerBase<T> : ManagerBase where T : ManagerBase<T>
+    {
+        private static T instance;
+        public static T Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        public override void Init()
+        {
+            instance = this as T;
+        }
     }
 }
 
 
-public class ManagerBase<T> : ManagerBase where T : ManagerBase<T>
-{
-    private static T instance;
-    
-    public  override void Init()
-    {
-        instance = this as T;
-    }
-
-
-}

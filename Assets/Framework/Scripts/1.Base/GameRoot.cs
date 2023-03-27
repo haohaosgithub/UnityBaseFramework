@@ -2,29 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameRoot : SingletonMono<GameRoot>
+namespace Framework
 {
-    protected override void Awake()
+    public class GameRoot : SingletonMono<GameRoot>
     {
-        if(instance != null)
+        protected override void Awake()
         {
-            Destroy(gameObject);
-            return;
+            if (instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
+
+
+            InitManagers();
+
         }
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
-        
-        
-        InitManagers();
 
-    }
-
-    private void InitManagers()
-    {
-        ManagerBase[] managers = GetComponents<ManagerBase>();
-        foreach (ManagerBase manager in managers)
+        private void InitManagers()
         {
-            manager.Init();
+            ManagerBase[] managers = GetComponents<ManagerBase>();
+            print("初始化所有管理器，数量为：" + managers.Length);
+            foreach (ManagerBase manager in managers)
+            {
+                manager.Init();
+            }
         }
     }
 }
+
+

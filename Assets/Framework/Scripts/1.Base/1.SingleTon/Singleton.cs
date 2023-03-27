@@ -2,38 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Singleton<T> where T : Singleton<T>, new()
+namespace Framework
 {
-    private static T instance;
-    //Èç¹û²»ÊÇÓÃÕâ¸öµ¥Àı»ùÀàÀ´´¦Àíµ¥Àı£¬
-    //¶øÊÇÃ¿¸öĞèÒª×÷Îªµ¥ÀıµÄÀà¶¼Ğ´ÖØ¸´´úÂë£¬Ôò¿ÉÒÔ°´Âß¼­Ğ´Ë½ÓĞctor
-    //µ«ÊÇÒòÎª´Ë´¦Ê¹ÓÃ»ùÀà£¬Ã¿¸ö×÷Îªµ¥ÀıµÄÀà¼Ì³Ğ¸ÃÀà£¬ËùÒÔctor²»ÄÜÎªË½ÓĞ
-    //ÕâÀïÊ¹ÓÃ±à¼­Æ÷Ä¬ÈÏÉú³ÉµÄctor(public)£¬
-    //ĞèÒªÊ¹ÓÃÕßÔÚÍâ²¿ÈËÎª²»ÄÜÓÃnewµÄ·½·¨¹¹Ôìµ¥Àı¶ÔÏó
-    //private Singleton() 
-    //{
-
-    //}
-    public static T Instance { get { return instance; } }
-
-    static Singleton()
+    public class Singleton<T> where T : Singleton<T>, new()
     {
-        instance = new T();
+        private static T instance;
+        //å¦‚æœä¸æ˜¯ç”¨è¿™ä¸ªå•ä¾‹åŸºç±»æ¥å¤„ç†å•ä¾‹ï¼Œè€Œæ˜¯æ¯ä¸ªéœ€è¦ä½œä¸ºå•ä¾‹çš„ç±»éƒ½å†™é‡å¤ä»£ç ï¼Œåˆ™å¯ä»¥æŒ‰é€»è¾‘å†™ç§æœ‰ctor
+        //ä½†æ˜¯å› ä¸ºæ­¤å¤„ä½¿ç”¨åŸºç±»ï¼Œæ¯ä¸ªä½œä¸ºå•ä¾‹çš„ç±»ç»§æ‰¿è¯¥ç±»ï¼Œæ‰€ä»¥ctorä¸èƒ½ä¸ºç§æœ‰
+        //è¿™é‡Œä½¿ç”¨ç¼–è¾‘å™¨é»˜è®¤ç”Ÿæˆçš„ctor(public)ï¼Œéœ€è¦ä½¿ç”¨è€…åœ¨å¤–éƒ¨äººä¸ºä¸èƒ½ç”¨newçš„æ–¹æ³•æ„é€ å•ä¾‹å¯¹è±¡
+        //private Singleton() 
+        //{
+
+        //}
+        public static T Instance { get { return instance; } }
+
+        static Singleton()
+        {
+            instance = new T();
+        }
+
+        //ä¸è€ƒè™‘å¤šçº¿ç¨‹çš„å†™æ³•
+        //private T instance;
+
+        //public T Instance { 
+        //    get 
+        //    {
+        //        if(instance == null)
+        //        {
+        //            instance = new T();
+        //        }
+        //        return instance;
+        //    } 
+        //}
+
+
     }
-
-    //²»¿¼ÂÇ¶àÏß³ÌµÄĞ´·¨
-    //private T instance;
-
-    //public T Instance { 
-    //    get 
-    //    {
-    //        if(instance == null)
-    //        {
-    //            instance = new T();
-    //        }
-    //        return instance;
-    //    } 
-    //}
-
 
 }

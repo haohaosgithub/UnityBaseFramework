@@ -58,7 +58,8 @@ namespace Framework
             }
             else
             {
-                CreatePoolList(gameObj);
+                //CreatePoolList(gameObj);
+                CreatePoolList(gameObj,-1,1);
                 //初始化一个对象池队列
                 //PoolGameObjectQueue poolQueue = new PoolGameObjectQueue(gameObj, poolRoot);
                 //poolQueue.PushObj(gameObj);

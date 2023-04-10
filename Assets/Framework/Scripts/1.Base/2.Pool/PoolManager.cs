@@ -97,12 +97,14 @@ namespace Framework
             //如果不存在prefab的对象池队列
             if (!poolDic.ContainsKey(prefab.name))
             {
+                //新建对象池队列
                 PoolGameObjectQueue poolQueue = new PoolGameObjectQueue(prefab, poolRoot,capacity);
                 poolQueue.capacity = capacity;
                 poolDic.Add(prefab.name, poolQueue);
-                if(prePushSize > 0)
+                //实例化默认数量的对象，并且加入对象队列
+                if (prePushSize > 0)
                 {
-                    for(int i = 0; i < prePushSize;i++) //实例化默认数量的对象，并且加入对象队列
+                    for(int i = 0; i < prePushSize;i++) 
                     {
                         GameObject go = Instantiate(prefab);
                         go.name = prefab.name;
@@ -112,11 +114,13 @@ namespace Framework
             }
             else 
             {
+                //得到对象池队列并设置容量
                 PoolGameObjectQueue poolQueue = poolDic[prefab.name];
                 poolQueue.capacity = capacity;
-                if(prePushSize > 0)
+                //实例化默认数量的对象，并且加入对象队列
+                if (prePushSize > 0)
                 {
-                    for (int i = 0; i < prePushSize - poolQueue.poolValueQueue.Count; i++) //实例化默认数量的对象，并且加入对象队列
+                    for (int i = 0; i < prePushSize - poolQueue.poolValueQueue.Count; i++) 
                     {
                         GameObject go = Instantiate(prefab);
                         go.name = prefab.name;

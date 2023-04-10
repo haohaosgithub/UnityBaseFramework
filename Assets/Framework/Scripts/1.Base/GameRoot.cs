@@ -8,7 +8,8 @@ namespace Framework
     {
         protected override void Awake()
         {
-            if (instance != null)
+            //如果实例不为空说明已经有对应的gameRoot脚本了，则删除多余的直接返回
+            if (instance != null) 
             {
                 Destroy(gameObject);
                 return;
@@ -16,7 +17,7 @@ namespace Framework
             base.Awake();
             DontDestroyOnLoad(gameObject);
 
-
+            //初始化所有管理器
             InitManagers();
 
         }

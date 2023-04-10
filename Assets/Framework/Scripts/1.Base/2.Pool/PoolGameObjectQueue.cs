@@ -9,20 +9,20 @@ namespace Framework
     /// <summary>
     /// GameObject对象池的具体数据队列，仅供poolManager调用而不供外部调用
     /// </summary>
-    public class PoolGameObjectData
+    public class PoolGameObjectQueue
     {
         public Queue<GameObject> poolValueQueue;
         public int capacity; // -1代表无限制
 
         public GameObject fatherObj;
-        public PoolGameObjectData(GameObject obj, GameObject poolRoot,int capacity = -1)
+        public PoolGameObjectQueue(GameObject obj, GameObject poolRoot,int capacity = -1)
         {
             poolValueQueue = new Queue<GameObject>();
             this.capacity = capacity;
             fatherObj = new GameObject();
             fatherObj.name = obj.name;
             fatherObj.transform.SetParent(poolRoot.transform);
-            PushObj(obj);
+            //PushObj(obj);
         }
 
         public GameObject GetObj()
@@ -51,7 +51,12 @@ namespace Framework
             return true;
         }
 
-
+        public void Clear()
+        {
+            Object.Destroy(fatherObj);
+            fatherObj = null;
+            poolValueQueue.Clear();
+        }
     }
 }
 

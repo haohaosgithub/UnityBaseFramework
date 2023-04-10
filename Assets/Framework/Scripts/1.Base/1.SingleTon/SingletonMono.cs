@@ -7,6 +7,8 @@ namespace Framework
     public class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T>
     {
         protected static T instance;
+        
+        public static T Instance { get { return instance; } }
         protected virtual void Awake()
         {
 
@@ -34,6 +36,7 @@ namespace Framework
 
             instance = this as T;
         }
+    
     }
 }
 

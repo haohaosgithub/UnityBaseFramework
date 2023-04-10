@@ -40,7 +40,6 @@ namespace Framework
             else
             {
                 gameObj = Instantiate(prefab);
-                gameObj.SetActive(true);
                 gameObj.name = prefab.name;
             }
             return gameObj;
@@ -58,12 +57,12 @@ namespace Framework
             }
             else
             {
-                //CreatePoolList(gameObj);
-                CreatePoolList(gameObj,-1,1);
+                
+                //CreatePoolList(gameObj,-1,1);
                 //初始化一个对象池队列
-                //PoolGameObjectQueue poolQueue = new PoolGameObjectQueue(gameObj, poolRoot);
-                //poolQueue.PushObj(gameObj);
-                //poolDic.Add(gameObj.name,poolQueue);
+                PoolGameObjectQueue poolQueue = new PoolGameObjectQueue(gameObj, poolRoot);
+                poolDic.Add(gameObj.name,poolQueue);
+                poolQueue.PushObj(gameObj);
 
                 return true;
             }
@@ -112,6 +111,7 @@ namespace Framework
                     }
                 }
             }
+            
             else 
             {
                 //得到对象池队列并设置容量

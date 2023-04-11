@@ -23,7 +23,7 @@ namespace Framework
             poolRoot.transform.SetParent(gameRoot.transform);
             print("pool manager 初始化成功");
         }
-
+        #region 游戏对象相关方法
         /// <summary>
         /// 获取一个GameObject对象
         /// </summary>
@@ -45,7 +45,24 @@ namespace Framework
             }
             return gameObj;
         }
-
+        /// <summary>
+        /// 如果对象池存在则获取一个GameObject对象，否则返回null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public GameObject GetGameObject(string path, Transform parent = null)
+        {
+            GameObject go = null;
+            string[] strSplit = path.Split('/');
+            string prefabName = strSplit[strSplit.Length - 1];
+            if (IsGameObjInPool(prefabName))
+            {
+                go = poolDic[prefabName].GetObj(parent);
+            }
+            return go;
+        }
         /// <summary>
         /// 获取GameObj的组件T
         /// </summary>
@@ -62,6 +79,8 @@ namespace Framework
             }
             return null;
         }
+
+        
         /// <summary>
         /// 将一个GameObject对象放入到对象池中
         /// </summary>
@@ -154,12 +173,16 @@ namespace Framework
         /// <returns></returns>
         private bool IsGameObjInPool(GameObject gameObj)
         {
-            if (poolDic.ContainsKey(gameObj.name) && poolDic[gameObj.name].poolValueQueue.Count > 0)
+            return IsGameObjInPool(gameObj.name);
+        }
+        private bool IsGameObjInPool(string name)
+        {
+            if (poolDic.ContainsKey(name) && poolDic[name].poolValueQueue.Count > 0)
                 return true;
             return false;
         }
-        
-         
+        #endregion
+
     }
 
 }

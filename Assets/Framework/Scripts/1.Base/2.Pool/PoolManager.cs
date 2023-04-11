@@ -27,24 +27,41 @@ namespace Framework
         /// <summary>
         /// 获取一个GameObject对象
         /// </summary>
-        /// <param name="prefab">预制体:当对象池没有对应对象时用该预制体实例化对象，当对象池存在对应对象时用预制体名称从对象池中取</param>
-        /// <returns></returns>
-        public GameObject GetGameObject(GameObject prefab)
+        /// <param name="prefab">源对象</param>
+        /// <param name="parent">克隆后go的父物体</param>
+        /// <returns>克隆出的目标对象</returns>
+        public GameObject GetGameObject(GameObject prefab,Transform parent = null)
         {
             GameObject gameObj;
             if (IsGameObjInPool(prefab))
             {
-                gameObj = poolDic[prefab.name].GetObj();
+                gameObj = poolDic[prefab.name].GetObj(parent);
 
             }
             else
             {
-                gameObj = Instantiate(prefab);
+                gameObj = Instantiate(prefab,parent);
                 gameObj.name = prefab.name;
             }
             return gameObj;
         }
 
+        /// <summary>
+        /// 获取GameObj的组件T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="prefab">源对象</param>
+        /// <param name="parent">克隆后go的父物体</param>
+        /// <returns>组件T</returns>
+        public T GetGameObject<T>(GameObject prefab,Transform parent = null) where T : Component
+        {
+            GameObject go = GetGameObject(prefab,parent);
+            if(go != null)
+            {
+                return go.GetComponent<T>();
+            }
+            return null;
+        }
         /// <summary>
         /// 将一个GameObject对象放入到对象池中
         /// </summary>
@@ -98,7 +115,7 @@ namespace Framework
             {
                 //新建对象池队列
                 PoolGameObjectQueue poolQueue = new PoolGameObjectQueue(prefab, poolRoot,capacity);
-                poolQueue.capacity = capacity;
+                //poolQueue.capacity = capacity;
                 poolDic.Add(prefab.name, poolQueue);
                 //实例化默认数量的对象，并且加入对象队列
                 if (prePushSize > 0)

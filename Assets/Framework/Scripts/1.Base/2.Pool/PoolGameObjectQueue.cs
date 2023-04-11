@@ -25,14 +25,18 @@ namespace Framework
             //PushObj(obj);
         }
 
-        public GameObject GetObj()
+        public GameObject GetObj(Transform parent = null)
         {
 
             GameObject gameObj = poolValueQueue.Dequeue();
 
             gameObj.SetActive(true);
-            gameObj.transform.SetParent(null);
-            SceneManager.MoveGameObjectToScene(gameObj, SceneManager.GetActiveScene());
+            gameObj.transform.SetParent(parent);
+            if(parent != null)
+            {
+                SceneManager.MoveGameObjectToScene(gameObj, SceneManager.GetActiveScene());
+            }
+            
             return gameObj;
         }
 

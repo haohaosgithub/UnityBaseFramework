@@ -16,7 +16,7 @@ public class TestPoolMgr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //PoolManager.Instance.CreatePoolList(cubePrefab, 4,1);
+        PoolManager.Instance.CreatePoolList(cubePrefab, 4,1);
     }
 
     private void Update()

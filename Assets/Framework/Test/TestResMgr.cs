@@ -16,12 +16,14 @@ public class TestResMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //如果按下A且脚本组件为Cb
         if (Input.GetKeyDown(KeyCode.A) && cube == null)
         {
             ResManager.Instance.LoadAsync<Cube>("Test/Cube",Cb);
             
         }
-        if (Input.GetKeyDown(KeyCode.D) && cube != null)
+        //如果按下D并且脚本组件为非空
+        if (Input.GetKeyDown(KeyCode.D) && cube != null) 
         {
             PoolManager.Instance.PushGameObj(cube.gameObject);
             cube = null;
@@ -29,7 +31,7 @@ public class TestResMgr : MonoBehaviour
 
     }
 
-    void Cb(Cube cubeController)
+    void Cb(Cube cubeController) //异步加载完成后的回调设置脚本组件的值为cubeController
     {
         //print("cb");
         cube = cubeController;

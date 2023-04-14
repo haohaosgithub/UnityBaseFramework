@@ -17,10 +17,12 @@ public class TestEventMgr : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             EventManager.Instance.EventTrigger("A");
+            EventManager.Instance.EventTrigger<string>("B","hello");
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             EventManager.Instance.Register("A",ACallBack);
+            EventManager.Instance.Register<string>("B", BCallBack);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
@@ -39,5 +41,10 @@ public class TestEventMgr : MonoBehaviour
     public void ACallBack()
     {
         print("A callback");
+    }
+
+    public void BCallBack(string s)
+    {
+        print("B callback: " + s);
     }
 }

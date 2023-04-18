@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Framework;
 
 [CreateAssetMenu(fileName ="DemoConfig",menuName ="Config/DemoConfig")]
 public class DemoConfig : ConfigBase

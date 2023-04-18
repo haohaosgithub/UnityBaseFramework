@@ -6,6 +6,9 @@ namespace Framework
 {
     public class GameRoot : SingletonMono<GameRoot>
     {
+        [SerializeField]
+        private GeneralConfig generalConfig;
+        public GeneralConfig GeneralConfig { get { return generalConfig; } }
         protected override void Awake()
         {
             //如果实例不为空说明已经有对应的gameRoot脚本了，则删除多余的直接返回
@@ -31,6 +34,7 @@ namespace Framework
                 manager.Init();
             }
         }
+         
     }
 }
 

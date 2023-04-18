@@ -6,17 +6,18 @@ using UnityEngine;
 
 public class ResManager : ManagerBase<ResManager>
 {
-    private Dictionary<Type, bool> needCacheDic;
+    private Dictionary<Type, bool> wantCacheDic;
     public override void Init()
     {
         base.Init();
-        needCacheDic = new Dictionary<Type, bool>();
-        needCacheDic.Add(typeof(Cube), true);
+        wantCacheDic = GameRoot.Instance.GeneralConfig.hasPoolAtrTypeDic;
+        //wantCacheDic = new Dictionary<Type, bool>();
+        //wantCacheDic.Add(typeof(Cube), true);
     }
 
-    private bool IsNeedCache(Type type)
+    private bool IsWantCache(Type type)
     {
-        return needCacheDic.ContainsKey(type);
+        return wantCacheDic.ContainsKey(type);
     }
 
     #region 对外提供的函数
@@ -31,7 +32,7 @@ public class ResManager : ManagerBase<ResManager>
     public T Load<T>(string path, Transform parent = null) where T : Component
     {
         
-        if (IsNeedCache(typeof(T)))
+        if (IsWantCache(typeof(T)))
         {
             return PoolManager.Instance.GetGameObject<T>(GetPrefab(path), parent);
         }
@@ -62,7 +63,7 @@ public class ResManager : ManagerBase<ResManager>
     public void LoadAsync<T>(string path,Action<T> cb = null,Transform parent = null) where T : Component
     {
         //异步获取go时，只有在对象池中有时才从对象池获取，否则异步加载获取
-        if(IsNeedCache(typeof(T)))
+        if(IsWantCache(typeof(T)))
         {
             GameObject go = PoolManager.Instance.GetGameObject(path,parent);
             if(go != null) 

@@ -16,7 +16,7 @@ public class TestPoolMgr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PoolManager.Instance.CreatePoolList(cubePrefab, 4,1);
+        //PoolManager.Instance.CreatePoolList(cubePrefab, 4,1);
     }
 
     private void Update()
@@ -28,7 +28,7 @@ public class TestPoolMgr : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            PoolManager.Instance.CreatePoolList(cubePrefab, 3, 2);
+            //PoolManager.Instance.CreatePoolList(cubePrefab, 3, 2);
         }
 
     }

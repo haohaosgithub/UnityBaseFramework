@@ -21,7 +21,7 @@ namespace Framework
             //GameObject GameRoot = GameObject.Find("GameRoot");
             MonoBehaviour gameRoot = GameRoot.Instance;
             poolRoot.transform.SetParent(gameRoot.transform);
-            print("pool manager 初始化成功");
+            //print("pool manager 初始化成功");
         }
         #region 游戏对象相关方法
         /// <summary>
@@ -97,7 +97,7 @@ namespace Framework
                 //CreatePoolList(gameObj,-1,1);
                 //初始化一个对象池队列
                 PoolGameObjectQueue poolQueue = new PoolGameObjectQueue(gameObj, poolRoot);
-                poolDic.Add(gameObj.name,poolQueue);
+                poolDic.Add(gameObj.name, poolQueue);
                 poolQueue.PushObj(gameObj);
 
                 return true;

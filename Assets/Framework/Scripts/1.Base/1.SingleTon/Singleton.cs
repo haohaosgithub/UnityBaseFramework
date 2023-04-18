@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Framework
 {
+    /// <summary>
+    /// 单例模式基类思路：利用继承解决代码重复，利用泛型解决不同子类不同实例
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Singleton<T> where T : Singleton<T>, new()
     {
         private static T instance;

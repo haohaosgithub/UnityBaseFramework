@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TestResMgr : MonoBehaviour
 {
-    Cube cube; //cube对应的脚本组件
+    CubeController cube; //cube对应的脚本组件
     void Start()
     {
         //ResManager.Instance.LoadAsync<Cube>("Test/Cube", Cb);
@@ -16,10 +16,10 @@ public class TestResMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //如果按下A且脚本组件为Cb
+        //如果按下A且脚本为空
         if (Input.GetKeyDown(KeyCode.A) && cube == null)
         {
-            ResManager.Instance.LoadAsync<Cube>("Test/Cube",Cb);
+            ResManager.Instance.LoadAsync<CubeController>("Test/Cube",Cb);
             
         }
         //如果按下D并且脚本组件为非空
@@ -31,7 +31,7 @@ public class TestResMgr : MonoBehaviour
 
     }
 
-    void Cb(Cube cubeController) //异步加载完成后的回调设置脚本组件的值为cubeController
+    void Cb(CubeController cubeController) //异步加载完成后的回调设置脚本组件的值为cubeController
     {
         //print("cb");
         cube = cubeController;

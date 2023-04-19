@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -32,11 +33,13 @@ namespace Framework
 
             gameObj.SetActive(true);
             gameObj.transform.SetParent(parent);
-            if(parent != null)
+            
+            if(parent == null)
             {
                 SceneManager.MoveGameObjectToScene(gameObj, SceneManager.GetActiveScene());
             }
-            
+
+            //Debug.Log("parent" + gameObj.transform.parent.name);
             return gameObj;
         }
 

@@ -91,7 +91,7 @@ public class AudioManager : ManagerBase<AudioManager>
             {
                 isLoop = value;
                 musicAudioSource.loop = isLoop;
-                UpdateEffectAudioVolume();
+                //UpdateEffectAudioVolume();
             }
         }
     }
@@ -132,7 +132,7 @@ public class AudioManager : ManagerBase<AudioManager>
         musicAudioSource.volume = globalVolume * musicVolume;
     }
 
-    //音效管理器音效数值变化时更新所有音效对象的数值
+    //音效管理器音效数值变化时更新所有音效组件的数值
     public void UpdateEffectAudioVolume()
     {
         for(int i = effectAudioSourceList.Count - 1;i>-1;i--) 
@@ -144,18 +144,25 @@ public class AudioManager : ManagerBase<AudioManager>
             else
             {
                 SetNumOfEffectAudio(effectAudioSourceList[i]);
-
             }
         }
     }
-    //更新指定音效对象的数值
+    //更新指定音效组件的数值
     public void SetNumOfEffectAudio(AudioSource audioSource,int spatial = -1)
     {
-        audioSource.mute = isMute;
-        audioSource.volume = effectAudioVolume;
+        audioSource.mute = isMute;  
+        audioSource.volume = effectAudioVolume * globalVolume;       
         if (spatial != -1)  //不设置则为默认，否则设置
         {
             audioSource.spatialBlend = spatial;
+        }
+        if (isPause)
+        {
+            audioSource.Pause();
+        }
+        else
+        {
+            audioSource.UnPause();
         }
 
     }
@@ -170,13 +177,15 @@ public class AudioManager : ManagerBase<AudioManager>
     
     public void PlayBGMusic(AudioClip clip, float volume = -1, bool isLoop = true)
     {
+        //获取musicAudioSource组件并设置相关数据
         musicAudioSource.clip = clip;
         if(volume != -1)
         {
             MusicVolume = volume;
         }
-        
         IsLoop = isLoop;
+        
+        //播放
         musicAudioSource.Play();
     }
 
@@ -210,7 +219,7 @@ public class AudioManager : ManagerBase<AudioManager>
     }
     public void PlayOneShot(AudioClip clip, Vector3 positon,bool is3D = false, Action cb = null, int time = 0)
     {
-        //获取音效组件并设置
+        //获取音效组件并设置相关数据
         AudioSource audioSource = GetEffectAudioSource(is3D);
         audioSource.transform.position = Vector3.zero;
         //播放

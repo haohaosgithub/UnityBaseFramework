@@ -285,6 +285,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &866616477 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5875279547857131872, guid: 9420aaf3105333842bf269973a857327, type: 3}
+  m_PrefabInstance: {fileID: 4264206403963751919}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &866616486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866616477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abe41f2e5f5cb5844815a0e569cf4067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,6 +393,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 866616478, guid: 9420aaf3105333842bf269973a857327, type: 3}
+      propertyPath: effectAudioSourcePrefab
+      value: 
+      objectReference: {fileID: 8437691732478982017, guid: a5dba9da9bd11284c9b7ac6758382ba8, type: 3}
     - target: {fileID: 3261168852389400872, guid: 9420aaf3105333842bf269973a857327, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -424,9 +445,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameRoot
       objectReference: {fileID: 0}
-    - target: {fileID: 8020952230500474461, guid: 9420aaf3105333842bf269973a857327, type: 3}
-      propertyPath: generalConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: 4703277b7e743194fb21762ab1daef09, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9420aaf3105333842bf269973a857327, type: 3}

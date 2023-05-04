@@ -28,10 +28,13 @@ public class TestArchiving : MonoBehaviour
         //ArchivingManager.Instance.SaveFile(testSave,Application.persistentDataPath + "/存储测试文件");
         //TestSave testSave2 = ArchivingManager.Instance.LoadFile<TestSave>(Application.persistentDataPath + "/存储测试文件");
         //print("over");
-        ArchivingManager.Instance.SaveArchiving(testSave);
-        ArchivingManager.Instance.SaveArchiving(testSave,3,"newTestSave");
-        TestSave testSave2 = ArchivingManager.Instance.LoadArchiving<TestSave>();
-        print("over");
+        //ArchivingManager.Instance.SaveArchiving(testSave);
+        //ArchivingManager.Instance.SaveArchiving(testSave,3,"newTestSave");
+        //TestSave testSave2 = ArchivingManager.Instance.LoadArchiving<TestSave>();
+        ArchivingItem item = ArchivingManager.Instance.CreateArchivingItem();
+        ArchivingManager.Instance.SaveArchiving(testSave,item);
+        print("save over");
+        ArchivingManager.Instance.DeleteArchivingItem(item);
 
     }
 

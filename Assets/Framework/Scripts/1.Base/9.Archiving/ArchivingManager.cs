@@ -1,25 +1,122 @@
+using Sirenix.OdinInspector.Editor.Validation;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 namespace Framework
 {
+    public class ArchivingItem
+    {
+        public int archivingId;
+
+        private DateTime lastUpdateTime;
+        public DateTime LastUpdateTime
+        {
+            get
+            {
+                return lastUpdateTime;
+            }
+            set
+            {
+                lastUpdateTime = value;
+                ArchivingManager.Instance.SaveArchivingMetaData();
+            }
+        }
+        public ArchivingItem(int id, DateTime time)
+        {
+            archivingId = id;
+            LastUpdateTime = time;
+        }
+    }
+    public class ArchivingMetaData
+    {
+        public int curID;
+        public List<ArchivingItem> archivingItems = new List<ArchivingItem>();
+    }
     public class ArchivingManager : ManagerBase<ArchivingManager>
     {
         BinaryFormatter bf = new BinaryFormatter();
         string archivingPath;
         Dictionary<int, Dictionary<string, object>> saveCache; //模拟存档结构的缓存(存档ID,(文件名，对象))
+       
+        
+        ArchivingMetaData archivingMetaData;
         public override void Init()
         {
             base.Init();
             archivingPath = Application.persistentDataPath + "/" + "SaveData";
+            archivingMetaData = new ArchivingMetaData();
             if(!Directory.Exists(archivingPath))
             {
                 Directory.CreateDirectory(archivingPath);
             }
             saveCache = new Dictionary<int, Dictionary<string, object>>();
         }
+        #region 存档元数据
+        /// <summary>
+        /// 创建一个新存档
+        /// </summary>
+        public ArchivingItem CreateArchivingItem()
+        {
+            ArchivingItem item = new ArchivingItem(archivingMetaData.curID,DateTime.Now);
+            archivingMetaData.archivingItems.Add(item);
+            ++archivingMetaData.curID;
+            SaveArchivingMetaData();
+            return item;
+        }
+        /// <summary>
+        /// 删除一个存档
+        /// </summary>
+        /// <param name="archivingID">存档ID</param>
+        public void DeleteArchivingItem(int archivingID)
+        {
+            string path = GetOneArchivingPath(archivingID,false);
+            if(path != null)
+            {
+                Directory.Delete(path, true);
+            }
+            archivingMetaData.archivingItems.Remove(GetArchivingItem(archivingID));
+        }
+        /// <summary>
+        /// 删除一个存档
+        /// </summary>
+        /// <param name="archivingItem">存档对象</param>
+        public void DeleteArchivingItem(ArchivingItem archivingItem)
+        {
+            string path = GetOneArchivingPath(archivingItem.archivingId,false);
+            if (path != null)
+            {
+                Directory.Delete(path, true);
+            }
+            archivingMetaData.archivingItems.Remove(archivingItem);
+        }
+        /// <summary>
+        /// 获取存档对象
+        /// </summary>
+        /// <param name="archivingID">存档ID</param>
+        /// <returns></returns>
+        public ArchivingItem GetArchivingItem(int archivingID)
+        {
+            for(int i = 0;i< archivingMetaData.archivingItems.Count;i++)
+            {
+                if(archivingMetaData.archivingItems[i].archivingId == archivingID)
+                {
+                    return archivingMetaData.archivingItems[i];
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// 保存存档元数据
+        /// </summary>
+        public void SaveArchivingMetaData()
+        {
+
+        }
+        #endregion
         #region 存档与缓存
         /// <summary>
         /// 将object写入缓存
@@ -73,6 +170,21 @@ namespace Framework
             string finalPath = actualArchivingPath + "/" + saveFileName;
             SaveFile(obj,finalPath);
             SaveCache(obj,saveID,saveFileName);
+            archivingMetaData.archivingItems[saveID].LastUpdateTime = DateTime.Now;
+        }
+        /// <summary>
+        /// 将对象存入具体的存档
+        /// </summary>
+        /// <param name="obj">需要存储的对象</param>
+        /// <param name="archivingItem">存档对象</param>
+        /// <param name="saveFileName">存储的存档文件名</param>
+        public void SaveArchiving(object obj, ArchivingItem archivingItem, string saveFileName)
+        {
+            string actualArchivingPath = GetOneArchivingPath(archivingItem.archivingId, true);
+            string finalPath = actualArchivingPath + "/" + saveFileName;
+            SaveFile(obj, finalPath);
+            SaveCache(obj, archivingItem.archivingId, saveFileName);
+            archivingItem.LastUpdateTime = DateTime.Now;
         }
         /// <summary>
         /// 将对象存入具体的存档（这里采用文件名为对象类型名的方式）
@@ -82,6 +194,10 @@ namespace Framework
         public void SaveArchiving(object obj, int saveID = 0)
         {
             SaveArchiving(obj, saveID,obj.GetType().Name);
+        }
+        public void SaveArchiving(object obj, ArchivingItem archivingItem)
+        {
+            SaveArchiving(obj, archivingItem, obj.GetType().Name);
         }
         /// <summary>
         /// 将存档文件加载成对象

@@ -43,7 +43,8 @@ namespace Framework
     public class ArchivingManager : ManagerBase<ArchivingManager>
     {
         BinaryFormatter bf = new BinaryFormatter();
-        string archivingPath;
+        string archivingPath; //一般游戏数据的存档路径，如等级，金币等，不同存档不同
+        string settingPath;//通用游戏数据的存档路径，如音量，分辨率等，为全局共享的
         Dictionary<int, Dictionary<string, object>> saveCache; //模拟存档结构的缓存(存档ID,(文件名，对象))
        
         
@@ -52,6 +53,7 @@ namespace Framework
         {
             base.Init();
             archivingPath = Application.persistentDataPath + "/" + "SaveData";
+            settingPath = Application.persistentDataPath + "/" + "Setting";
             archivingMetaData = new ArchivingMetaData();
 
             if(!Directory.Exists(archivingPath))
@@ -60,6 +62,17 @@ namespace Framework
             }
             saveCache = new Dictionary<int, Dictionary<string, object>>();
         }
+        #region 通用存档
+        public void SaveSetting(object obj, string fileName)
+        {
+            SaveFile(obj, settingPath + "/" + fileName);
+        }
+        private T LoadSetting<T>(string fileName) where T : class
+        {
+            T obj = LoadFile<T>(settingPath + "/" + fileName);
+            return obj;
+        }
+        #endregion
         #region 返回按指定方式排序的存档列表 
         /// <summary>
         /// 按照更新时间排序，新的在前面
@@ -313,7 +326,7 @@ namespace Framework
         }
         #endregion
         #region 对象与文件
-        public void SaveFile(object obj,string path)
+        private void SaveFile(object obj,string path)
         {
 
             using(FileStream f = new FileStream(path,FileMode.OpenOrCreate))
@@ -322,7 +335,7 @@ namespace Framework
             }
         }
 
-        public T LoadFile<T>(string path) where T :class
+        private T LoadFile<T>(string path) where T :class
         {
             T obj = null;
             if(File.Exists(path))

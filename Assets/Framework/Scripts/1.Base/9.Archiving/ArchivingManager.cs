@@ -3,11 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Framework
 {
+    [Serializable]
     public class ArchivingItem
     {
         public int archivingId;
@@ -31,6 +34,7 @@ namespace Framework
             LastUpdateTime = time;
         }
     }
+    [Serializable]
     public class ArchivingMetaData
     {
         public int curID;
@@ -49,12 +53,53 @@ namespace Framework
             base.Init();
             archivingPath = Application.persistentDataPath + "/" + "SaveData";
             archivingMetaData = new ArchivingMetaData();
+
             if(!Directory.Exists(archivingPath))
             {
                 Directory.CreateDirectory(archivingPath);
             }
             saveCache = new Dictionary<int, Dictionary<string, object>>();
         }
+        #region 返回按指定方式排序的存档列表 
+        /// <summary>
+        /// 按照更新时间排序，新的在前面
+        /// </summary>
+        /// <returns></returns>
+        public List<ArchivingItem> GetArchivingListByUpdateTime()
+        {
+            List<ArchivingItem> res = new List<ArchivingItem>(archivingMetaData.archivingItems.Count);
+            for(int i = 0;i< archivingMetaData.archivingItems.Count; i++)
+            {
+                res.Add(archivingMetaData.archivingItems[i]);
+            }
+            OrderByUpdateTimeCompare order = new OrderByUpdateTimeCompare();
+            res.Sort(order);
+            return res;
+        }
+
+        public class OrderByUpdateTimeCompare : IComparer<ArchivingItem> 
+        {
+            public int Compare(ArchivingItem x, ArchivingItem y)
+            {
+                if (x.LastUpdateTime < y.LastUpdateTime) return 1;
+                else if (x.LastUpdateTime > y.LastUpdateTime) return -1;
+                else return 0;
+            }
+        }
+
+        public List<ArchivingItem> GetArchivingListByCondition<T>(Func<ArchivingItem,T> condition,bool isDescending = false)
+        {
+            if(!isDescending)
+            {
+                return archivingMetaData.archivingItems.OrderBy(condition).ToList();
+            }
+            else
+            {
+                return archivingMetaData.archivingItems.OrderByDescending(condition).ToList();
+            }
+            
+        }    
+        #endregion
         #region 存档元数据
         /// <summary>
         /// 创建一个新存档
@@ -114,7 +159,7 @@ namespace Framework
         /// </summary>
         public void SaveArchivingMetaData()
         {
-
+            SaveFile(archivingMetaData, archivingPath + "/" + "ArchivingMetaData");
         }
         #endregion
         #region 存档与缓存
@@ -232,9 +277,25 @@ namespace Framework
         {
             return LoadArchiving<T>(saveID,typeof(T).Name);
         }
+        /// <summary>
+        /// 将存档对象中某个文件加载为对象
+        /// </summary>
+        /// <typeparam name="T">要加载的对象类型</typeparam>
+        /// <param name="item">存档对象</param>
+        /// <param name="saveFileName">保存的文件名</param>
+        /// <returns></returns>
+        public T LoadArchiving<T>(ArchivingItem item, string saveFileName) where T:class
+        {
+            return LoadArchiving<T>(item.archivingId,saveFileName);
+        }
+        public T LoadArchiving<T>(ArchivingItem item) where T : class
+        {
+            return LoadArchiving<T>(item, typeof(T).Name);
+        }
         //第二个参数为如果不存在是否创建存档路径,默认不创建
         public string GetOneArchivingPath(int saveID,bool isCreate = false) 
         {
+            if (GetArchivingItem(saveID) == null) throw new Exception("Framework: saveid存档不存在");
             string actualArchivingPath = archivingPath + "/" + saveID.ToString();
             if(!Directory.Exists(actualArchivingPath))
             {

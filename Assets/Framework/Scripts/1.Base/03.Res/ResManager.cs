@@ -116,7 +116,7 @@ public class ResManager : ManagerBase<ResManager>
         return prefab;
     }
     //根据预制体实例化go
-    private GameObject InstantiateFromPrefab(GameObject prefab,Transform parent = null)
+    public GameObject InstantiateFromPrefab(GameObject prefab,Transform parent = null)
     {
         GameObject go= Instantiate(prefab,parent);
         go.name = prefab.name;

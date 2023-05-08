@@ -39,11 +39,14 @@ namespace Framework
         #endregion
         public Dictionary<Type, UIPanel> panelDic;
         public List<UILayer> layerList;
+        Tips tips;
 
         public override void Init()
         {
             base.Init();
             panelDic = new Dictionary<Type, UIPanel>();
+            tips = transform.Find("UIRoot/Tips").GetComponent<Tips>();
+            
         }
 
         public T Show<T>(int layer = -1) where T : PanelBase
@@ -90,6 +93,11 @@ namespace Framework
                 panel.panelBase = null;
             }
             layerList[panel.layerNum].OnClose();
+        }
+        
+        public void AddTips(string info)
+        {
+            tips.AddTips(info);
         }
     }
 }

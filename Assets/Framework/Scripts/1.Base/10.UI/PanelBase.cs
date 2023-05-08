@@ -16,10 +16,20 @@ namespace Framework
         }
         public virtual void OnShow()
         {
-
+            RegisterEventListener();
         }
 
         public virtual void OnClose() 
+        {
+            UnRegisterEventListener();
+        }
+
+        public virtual void RegisterEventListener() 
+        {
+
+        }
+
+        public virtual void UnRegisterEventListener()
         {
 
         }

@@ -6,18 +6,18 @@ using UnityEngine;
 
 public class ResManager : ManagerBase<ResManager>
 {
-    private Dictionary<Type, bool> wantCacheDic;
+    private HashSet<Type> wantCacheSet; //需要缓存的类型
     public override void Init()
     {
         base.Init();
-        wantCacheDic = GameRoot.Instance.GeneralConfig.hasPoolAtrTypeDic;
+        wantCacheSet = GameRoot.Instance.GeneralConfig.hasPoolAtrTypeSet;
         //wantCacheDic = new Dictionary<Type, bool>();
         //wantCacheDic.Add(typeof(Cube), true);
     }
 
     private bool IsWantCache(Type type)
     {
-        return wantCacheDic.ContainsKey(type);
+        return wantCacheSet.Contains(type);
     }
 
     #region 对外提供的函数
@@ -109,13 +109,13 @@ public class ResManager : ManagerBase<ResManager>
     #endregion
     #endregion
     #region 工具函数
-    //加载预制体资源
+    //根据路径加载预制体资源
     private GameObject GetPrefab(string path)
     {
-        GameObject prefab = Resources.Load(path) as GameObject;
+        GameObject prefab = Resources.Load<GameObject>(path);
         return prefab;
     }
-    //实例化go
+    //根据预制体实例化go
     private GameObject InstantiateFromPrefab(GameObject prefab,Transform parent = null)
     {
         GameObject go= Instantiate(prefab,parent);

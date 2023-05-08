@@ -126,9 +126,9 @@ namespace Framework
             return item;
         }
         /// <summary>
-        /// 删除一个存档
+        /// 删除一个存档 (根据存档ID）
         /// </summary>
-        /// <param name="archivingID">存档ID</param>
+        /// <param name="archivingID">存档ID</param> 
         public void DeleteArchivingItem(int archivingID)
         {
             string path = GetOneArchivingPath(archivingID,false);
@@ -136,10 +136,12 @@ namespace Framework
             {
                 Directory.Delete(path, true);
             }
+            RemoveCache(archivingID);
             archivingMetaData.archivingItems.Remove(GetArchivingItem(archivingID));
+
         }
         /// <summary>
-        /// 删除一个存档
+        /// 删除一个存档 （根据存档对象)
         /// </summary>
         /// <param name="archivingItem">存档对象</param>
         public void DeleteArchivingItem(ArchivingItem archivingItem)
@@ -149,6 +151,7 @@ namespace Framework
             {
                 Directory.Delete(path, true);
             }
+            RemoveCache(archivingItem.archivingId);
             archivingMetaData.archivingItems.Remove(archivingItem);
         }
         /// <summary>
@@ -200,6 +203,13 @@ namespace Framework
                 saveCache.Add(saveID,new Dictionary<string, object>() { { saveName, obj } });
             }
         }
+        /// <summary>
+        /// 将缓存读入并返回对象，没有则返回null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="saveId"></param>
+        /// <param name="saveName"></param>
+        /// <returns></returns>
         public T LoadCache<T>(int saveId,string saveName) where T:class
         {
             if (saveCache.ContainsKey(saveId))
@@ -213,6 +223,14 @@ namespace Framework
             }
             else
                 return null;
+        }
+        /// <summary>
+        /// 删除缓存
+        /// </summary>
+        /// <param name="saveID"></param>
+        public void RemoveCache(int saveID)
+        {
+            saveCache.Remove(saveID);
         }
         #endregion
         #region 对象与存档

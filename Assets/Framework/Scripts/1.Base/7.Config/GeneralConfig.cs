@@ -17,7 +17,7 @@ namespace Framework
     [CreateAssetMenu(fileName ="GeneralConfig",menuName ="Config/GeneralConfig")]
     public class GeneralConfig : ConfigBase
     {
-        public Dictionary<Type, bool> hasPoolAtrTypeDic;  //want cache type,value is no mean
+        public HashSet<Type> hasPoolAtrTypeSet = new HashSet<Type>();  //如果type类型的对象被资源管理器管理，是否需要对象池，需要则在set中
 
 #if UNITY_EDITOR
         [Button("初始化通用配置")]
@@ -30,7 +30,8 @@ namespace Framework
         //找到所有有pool特性的类,加入hasPoolAtrTypeDic
         public void PoolAttributeTravels() 
         {
-            hasPoolAtrTypeDic.Clear();
+            if(hasPoolAtrTypeSet == null) { Debug.Log("null"); return; }
+            hasPoolAtrTypeSet.Clear();
             Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
             foreach (Assembly assembly in asms) 
             {
@@ -39,7 +40,7 @@ namespace Framework
                     PoolAttribute pool = type.GetCustomAttribute<PoolAttribute>();
                     if(pool != null)
                     {
-                        hasPoolAtrTypeDic.Add(type, true);
+                        hasPoolAtrTypeSet.Add(type);
                     }
                 }
             }

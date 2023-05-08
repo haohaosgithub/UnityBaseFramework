@@ -122,14 +122,15 @@ public class AudioManager : ManagerBase<AudioManager>
     public override void Init()
     {
         base.Init();
-        globalVolume = 1;
-        musicVolume = 1;
-        effectAudioVolume = 1;
+        GlobalVolume = 1;
+        MusicVolume = 1;
+        EffectAudioVolume = 1;
     }
 
+    //更新背景音乐大小
     public void UpdateMusicVolume()
     {
-        musicAudioSource.volume = globalVolume * musicVolume;
+        musicAudioSource.volume = GlobalVolume * MusicVolume;
     }
 
     //音效管理器音效数值变化时更新所有音效组件的数值
@@ -151,7 +152,7 @@ public class AudioManager : ManagerBase<AudioManager>
     public void SetNumOfEffectAudio(AudioSource audioSource,int spatial = -1)
     {
         audioSource.mute = isMute;  
-        audioSource.volume = effectAudioVolume * globalVolume;       
+        audioSource.volume = EffectAudioVolume * GlobalVolume;       
         if (spatial != -1)  //不设置则为默认，否则设置
         {
             audioSource.spatialBlend = spatial;
@@ -247,7 +248,10 @@ public class AudioManager : ManagerBase<AudioManager>
         //AudioSource audioSource = PoolManager.Instance.GetGameObject<AudioSource>(effectAudioSourcePrefab);
         AudioSource audioSource = PoolManager.Instance.GetGameObject<AudioSource>(effectAudioSourcePrefab,effectAudioSoureceGoRoot.transform);
         SetNumOfEffectAudio(audioSource,is3D? 1: 0);
-        effectAudioSourceList.Add(audioSource);
+        if (!effectAudioSourceList.Contains(audioSource)) //相同音效对象不重复添加，后续可考虑调整为hashset存储
+        {
+            effectAudioSourceList.Add(audioSource);
+        }
         return audioSource;
     }
     
@@ -255,7 +259,14 @@ public class AudioManager : ManagerBase<AudioManager>
     {
         StartCoroutine(DoRecycleAudioSourceGo(audioSource,clip,cb,time));
     }
-    
+    /// <summary>
+    /// 回收音效对象的协程
+    /// </summary>
+    /// <param name="audioSource">音效源</param>
+    /// <param name="clip">音效切片</param>
+    /// <param name="cb">音效播放完成后，再间隔time的callback</param>
+    /// <param name="time">间隔时间</param>
+    /// <returns></returns>
     public IEnumerator DoRecycleAudioSourceGo(AudioSource audioSource, AudioClip clip, Action cb, int time)
     {
 

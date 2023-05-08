@@ -13,7 +13,7 @@ public class TestSingle : Singleton<TestSingle>
 public class TestPoolMgr : MonoBehaviour
 {
     public GameObject cubePrefab;
-    public GameObject effectAudioSourcePrefab;
+    //public GameObject effectAudioSourcePrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,14 +25,14 @@ public class TestPoolMgr : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.A))
         {
             //TestSingle.Instance.Func();
-            //PoolManager.Instance.GetGameObject(cubePrefab);
-            CubeController controller =PoolManager.Instance.GetGameObject<CubeController>(cubePrefab);
+            PoolManager.Instance.GetGameObject(cubePrefab);
+            //CubeController controller =PoolManager.Instance.GetGameObject<CubeController>(cubePrefab);
 
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             //PoolManager.Instance.CreatePoolList(cubePrefab, 3, 2);
-            AudioSource audioSource = PoolManager.Instance.GetGameObject<AudioSource>(effectAudioSourcePrefab);
+            //AudioSource audioSource = PoolManager.Instance.GetGameObject<AudioSource>(effectAudioSourcePrefab);
         }   
 
     }

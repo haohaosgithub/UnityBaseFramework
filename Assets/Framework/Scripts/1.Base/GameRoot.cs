@@ -31,6 +31,7 @@ namespace Framework
             print("初始化所有管理器，数量为：" + managers.Length);
             foreach (ManagerBase manager in managers)
             {
+                //print("初始化管理器：" + manager);
                 manager.Init();
             }
         }

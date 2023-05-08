@@ -23,11 +23,11 @@ namespace Framework
         /// 切换到状态T
         /// </summary>
         /// <typeparam name="T">目标状态类型</typeparam>
-        /// <param name="isChangeCur">当切换的目标状态和当前状态相同时是否处理</param>
-        public void ChangeState<T>(bool isChangeCur = false) where T : StateBase,new() 
+        /// <param name="isHandleChangeCur">当切换的目标状态和当前状态相同时是否处理</param>
+        public void ChangeState<T>(bool isHandleChangeCur = false) where T : StateBase,new() 
         {
             //切换的目标状态和当前状态相同且不处理
-            if (curStateObj != null && CurStateType == typeof(T) && !isChangeCur) return;
+            if (curStateObj != null && CurStateType == typeof(T) && !isHandleChangeCur) return;
             //退出当前状态
             if(curStateObj != null)
             {

@@ -7,8 +7,8 @@ namespace Framework
     /// <summary>
     /// 单例模式基类思路：利用继承解决代码重复，利用泛型解决不同子类不同实例
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class Singleton<T> where T : Singleton<T>, new()
+    /// <typeparam name="T">实际的单例子类</typeparam>
+    public abstract class Singleton<T> where T : Singleton<T>, new()
     {
         private static T instance;
         //如果不是用这个单例基类来处理单例，而是每个需要作为单例的类都写重复代码，则可以按逻辑写私有ctor

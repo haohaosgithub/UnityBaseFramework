@@ -10,11 +10,11 @@ namespace Framework
     /// </summary>
     public class ConfigManager : ManagerBase<ConfigManager>
     {
-        public ConfigSetting configSetting;
+        public ConfigContainer configContainer;
 
         public T GetConfig<T>(string typeName, int id) where T : ConfigBase
         {
-            return configSetting.GetConfig<T>(typeName, id);
+            return configContainer.GetConfig<T>(typeName, id);
         }
     }
 }

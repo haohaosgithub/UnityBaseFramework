@@ -80,7 +80,7 @@ namespace Framework
         {
             if (eventDic.ContainsKey(name))
             {
-                (eventDic[name] as EventInfo<T>).action += action;
+                (eventDic[name] as EventInfo<T>).action   += action;
             }
             else
             {

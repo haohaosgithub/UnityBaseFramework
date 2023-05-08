@@ -93,11 +93,10 @@ namespace Framework
             }
             else
             {
-                
-                //CreatePoolList(gameObj,-1,1);
-                //初始化一个对象池队列
-                PoolGameObjectQueue poolQueue = new PoolGameObjectQueue(gameObj, poolRoot);
-                poolDic.Add(gameObj.name, poolQueue);
+                //初始化一个空的无限制容量的对象池队列,并将gameObj放入
+                PoolGameObjectQueue poolQueue =  CreatePoolList(gameObj,-1,0);
+                //PoolGameObjectQueue poolQueue = new PoolGameObjectQueue(gameObj, poolRoot);
+                //poolDic.Add(gameObj.name, poolQueue);
                 poolQueue.PushObj(gameObj);
 
                 return true;
@@ -117,23 +116,23 @@ namespace Framework
         }
 
         /// <summary>
-        /// 创建对象池队列（若已经存在则为修改已存在对象池队列的设置 如容量）
+        /// 创建对象池队列并预放入一些go（若已经存在则为修改已存在对象池队列的设置 如容量）
         /// </summary>
         /// <param name="prefab"></param>
         /// <param name="capacity"></param>
         /// <param name="prePushSize"></param>
-        public void CreatePoolList(GameObject prefab,int capacity= -1,int prePushSize= 0)
+        public PoolGameObjectQueue CreatePoolList(GameObject prefab,int capacity= -1,int prePushSize= 0)
         {
             if(prePushSize > capacity && capacity != -1)
             {
                 throw new Exception("对象池设置默认容量超出限制");
             }
-            
+            PoolGameObjectQueue poolQueue = null;
             //如果不存在prefab的对象池队列
             if (!poolDic.ContainsKey(prefab.name))
             {
                 //新建对象池队列
-                PoolGameObjectQueue poolQueue = new PoolGameObjectQueue(prefab, poolRoot,capacity);
+                poolQueue = new PoolGameObjectQueue(prefab, poolRoot,capacity);
                 //poolQueue.capacity = capacity;
                 poolDic.Add(prefab.name, poolQueue);
                 //实例化默认数量的对象，并且加入对象队列
@@ -151,7 +150,7 @@ namespace Framework
             else 
             {
                 //得到对象池队列并设置容量
-                PoolGameObjectQueue poolQueue = poolDic[prefab.name];
+                poolQueue = poolDic[prefab.name];
                 poolQueue.capacity = capacity;
                 //实例化默认数量的对象，并且加入对象队列
                 if (prePushSize > 0)
@@ -164,7 +163,7 @@ namespace Framework
                     }
                 }
             }
-
+            return poolQueue;
         }
         /// <summary>
         /// 对象列表在池子中且存在该列表存在对象

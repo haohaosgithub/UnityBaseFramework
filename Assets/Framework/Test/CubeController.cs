@@ -13,6 +13,7 @@ public class CubeController : MonoBehaviour
     // Update is called once per frame
     void Removeself()
     {
+        print(gameObject);
         PoolManager.Instance.PushGameObj(gameObject);
     }
 }

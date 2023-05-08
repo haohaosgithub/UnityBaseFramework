@@ -23,6 +23,11 @@ public class TestMusic : MonoBehaviour
         {
             AudioManager.Instance.PlayOneShot("Test/cannon_01",Vector3.zero,true,Callback,1); ;
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            print(AudioManager.Instance.effectAudioSourceList.Count);
+        }
+
     }
 
     private void Callback()

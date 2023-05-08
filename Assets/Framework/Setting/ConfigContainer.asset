@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f369f82b8ca18c4fae9cbcfb8181274, type: 3}
-  m_Name: GeneralConfig
+  m_Script: {fileID: 11500000, guid: 664f1fd3c5c853142a0e60c16acf80d6, type: 3}
+  m_Name: ConfigContainer
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,21 +21,21 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: hasPoolAtrTypeSet
+    - Name: configDic
       Entry: 7
-      Data: 0|System.Collections.Generic.HashSet`1[[System.Type, mscorlib]], System.Core
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
+      Data: 0|Unity.Cloud.Collaborate.Common.SerializableDictionary`2[[System.String,
+        mscorlib],[System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[Framework.ConfigBase,
+        Assembly-CSharp]], mscorlib]], Unity.CollabProxy.Editor
+    - Name: comparer
       Entry: 7
-      Data: 1|System.RuntimeType, mscorlib
-    - Name: 
-      Entry: 1
-      Data: CubeController, Assembly-CSharp
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
     - Name: 
       Entry: 13
       Data: 

@@ -14,3 +14,4 @@ Packages/
 *.unityproj
 *.DS_Store
 *.config
+!*.Config/

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Framework
 {
     /// <summary>
-    /// 面板基类
+    /// 面板基类(其子类挂载在UI面板上）
     /// </summary>
     public class PanelBase : MonoBehaviour
     {

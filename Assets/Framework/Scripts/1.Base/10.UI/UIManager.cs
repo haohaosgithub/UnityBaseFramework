@@ -31,9 +31,9 @@ namespace Framework
 
             public void Update()
             {
-                int posIndex = count - 2 < 0 ? 0 : count - 2;
+                int posIndex = root.childCount - 2 < 0 ? 0 : root.childCount -2; //mask永远是倒数第2个
                 imageMask.transform.SetSiblingIndex(posIndex);
-                imageMask.raycastTarget = count != 0; //如果当前层无面板就不设置该层遮罩
+                imageMask.raycastTarget = count != 0; //如果当前层只要有面板就设置该层遮罩，遮住前面的层级及当前层其他面板
             }
         }
         #endregion
@@ -44,7 +44,7 @@ namespace Framework
         public override void Init()
         {
             base.Init();
-            panelDic = new Dictionary<Type, UIPanel>();
+            panelDic = GameRoot.Instance.GeneralConfig.panelDic;
             tips = transform.Find("UIRoot/Tips").GetComponent<Tips>();
             
         }

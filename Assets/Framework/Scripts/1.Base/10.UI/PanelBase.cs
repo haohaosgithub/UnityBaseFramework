@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,11 @@ namespace Framework
     /// </summary>
     public class PanelBase : MonoBehaviour
     {
+        Type Type { get 
+            {
+                return this.GetType();
+            } 
+        } //得到自己的类型（子类）
 
         public virtual void Init()
         {
@@ -19,6 +25,13 @@ namespace Framework
             RegisterEventListener();
         }
 
+        /// <summary>
+        /// 关闭自己（当前面板）
+        /// </summary>
+        public virtual void Close() 
+        {
+            UIManager.Instance.Close<newGamePanel>();
+        }
         public virtual void OnClose() 
         {
             UnRegisterEventListener();

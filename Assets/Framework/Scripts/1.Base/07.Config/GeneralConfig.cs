@@ -13,7 +13,7 @@ namespace Framework
     /// 通用设置
     /// 1.处理一些与游戏内容无关的设置，如资源管理中的是否使用对象池；
     /// 2.处理UI面板
-    /// 由GameRoot而不是ConfigManager管理 
+    /// 当前实例由GameRoot而不是ConfigManager管理 
     /// </summary>
     [CreateAssetMenu(fileName ="GeneralConfig",menuName ="Config/GeneralConfig")]
     public class GeneralConfig : ConfigBase

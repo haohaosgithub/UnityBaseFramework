@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Framework
 {
+    [DefaultExecutionOrder(100)]
     public class GameRoot : SingletonMono<GameRoot>
     {
         [SerializeField]
@@ -24,6 +25,7 @@ namespace Framework
             InitManagers();
 
         }
+        
 
         private void InitManagers()
         {

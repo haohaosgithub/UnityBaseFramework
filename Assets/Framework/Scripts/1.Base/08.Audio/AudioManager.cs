@@ -125,6 +125,7 @@ public class AudioManager : ManagerBase<AudioManager>
         GlobalVolume = 1;
         MusicVolume = 1;
         EffectAudioVolume = 1;
+        
     }
 
     //更新背景音乐大小

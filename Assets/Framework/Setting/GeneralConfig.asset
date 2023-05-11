@@ -15,7 +15,9 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 8405082574627934847, guid: 81dfd58ac12feb74e9cfb70ce00d7c74, type: 3}
+    - {fileID: 3973361037545495988, guid: 672b7013f82c05548a2c4011b83ee640, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -46,7 +48,73 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 3|System.RuntimeType, mscorlib
+    - Name: 
+      Entry: 1
+      Data: LoadingPanel, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 7
+      Data: 4|Framework.UIPanel, Assembly-CSharp
+    - Name: prefab
+      Entry: 10
       Data: 0
+    - Name: layerNum
+      Entry: 3
+      Data: 4
+    - Name: isCache
+      Entry: 5
+      Data: true
+    - Name: panelBase
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 5|System.RuntimeType, mscorlib
+    - Name: 
+      Entry: 1
+      Data: mainMenuPanel, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 7
+      Data: 6|Framework.UIPanel, Assembly-CSharp
+    - Name: prefab
+      Entry: 10
+      Data: 1
+    - Name: layerNum
+      Entry: 3
+      Data: 0
+    - Name: isCache
+      Entry: 5
+      Data: true
+    - Name: panelBase
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

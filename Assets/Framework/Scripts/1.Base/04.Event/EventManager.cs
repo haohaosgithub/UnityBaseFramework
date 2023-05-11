@@ -48,6 +48,7 @@ namespace Framework
         public override void Init()
         {
             base.Init();
+
             eventDic = new Dictionary<string,IEventInfo>();
         }
         

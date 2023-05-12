@@ -10,7 +10,8 @@ namespace Framework
     /// </summary>
     public class PanelBase : MonoBehaviour
     {
-        Type Type { get 
+        Type PanelType 
+        {   get 
             {
                 return this.GetType();
             } 
@@ -30,7 +31,7 @@ namespace Framework
         /// </summary>
         public virtual void Close() 
         {
-            UIManager.Instance.Close<newGamePanel>();
+            UIManager.Instance.Close(PanelType);
         }
         public virtual void OnClose() 
         {

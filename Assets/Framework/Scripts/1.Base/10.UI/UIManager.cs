@@ -2,6 +2,7 @@ using Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,14 +52,18 @@ namespace Framework
 
         public T Show<T>(int layer = -1) where T : PanelBase
         {
-            if(panelDic.ContainsKey(typeof(T)))
+            return Show(typeof(T), layer) as T;
+        }
+        public PanelBase Show(Type type,int layer = -1)
+        {
+            if (panelDic.ContainsKey(type))
             {
-                UIPanel panel = panelDic[typeof(T)];
+                UIPanel panel = panelDic[type];
                 int layerNum = layer == -1 ? panel.layerNum : layer;
-                if(panel.panelBase == null)
+                if (panel.panelBase == null)
                 {
                     //创建并设置面板到对应层级的对应位置
-                    panel.panelBase = ResManager.Instance.InstantiateFromPrefab(panel.prefab, layerList[layerNum].root).GetComponent<T>();
+                    panel.panelBase = ResManager.Instance.InstantiateFromPrefab(panel.prefab, layerList[layerNum].root).GetComponent<PanelBase>();
                     panel.panelBase.Init();
                 }
                 else
@@ -71,18 +76,22 @@ namespace Framework
                 panel.panelBase.OnShow();
                 panel.layerNum = layerNum;
                 layerList[layerNum].OnShow();
-                return panel.panelBase as T;
+                return panel.panelBase;
 
             }
             return null;
         }
         public void Close<T>()
         {
-            if (!panelDic.ContainsKey(typeof(T))) return;
-            UIPanel panel = panelDic[typeof(T)];
+            Close(typeof(T));
+        }
+        public void Close(Type type)
+        {
+            if (!panelDic.ContainsKey(type)) return;
+            UIPanel panel = panelDic[type];
             if (panel.panelBase == null) return;
             panel.panelBase.OnClose();
-            if(panel.isCache)
+            if (panel.isCache)
             {
                 panel.panelBase.gameObject.SetActive(false);
                 panel.panelBase.transform.SetAsFirstSibling();
@@ -94,7 +103,14 @@ namespace Framework
             }
             layerList[panel.layerNum].OnClose();
         }
-        
+        public void CloseAll()
+        {
+            foreach(var panel in panelDic)
+            {
+                panel.Value.panelBase.Close();
+            }
+        }
+
         public void AddTips(string info)
         {
             tips.AddTips(info);

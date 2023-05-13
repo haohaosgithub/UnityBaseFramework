@@ -104,7 +104,13 @@ namespace Framework
                 else return 0;
             }
         }
-
+        /// <summary>
+        /// 根据特定条件排序
+        /// </summary>
+        /// <typeparam name="T">根据排序的类型</typeparam>
+        /// <param name="condition">条件函数</param>
+        /// <param name="isDescending">是否倒序</param>
+        /// <returns></returns>
         public List<ArchivingItem> GetArchivingListByCondition<T>(Func<ArchivingItem,T> condition,bool isDescending = false)
         {
             if(!isDescending)

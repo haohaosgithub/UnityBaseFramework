@@ -29,7 +29,7 @@ namespace Framework
         /// <summary>
         /// 关闭自己（当前面板）
         /// </summary>
-        public virtual void Close() 
+        public void Close() 
         {
             UIManager.Instance.Close(PanelType);
         }
